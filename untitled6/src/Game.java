@@ -5,9 +5,9 @@ import java.io.PrintStream;
 import java.util.HashSet;
 
 public class Game extends JFrame {
-    private int currentPlayer = 1;
+    int currentPlayer = 1;
     int seconds=60;
-    private boolean turnEnded = true;
+    boolean turnEnded = true;
     JFrame frame = new JFrame();
     JButton startGameButton = new JButton();
     JLabel titleLabel = new JLabel();
