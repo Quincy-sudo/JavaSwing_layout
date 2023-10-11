@@ -5,8 +5,9 @@ import java.io.PrintStream;
 import java.util.HashSet;
 
 public class Game extends JFrame {
-    int seconds=10;
+    int seconds=60;
     JFrame frame = new JFrame();
+    JButton startGameButton = new JButton();
     JLabel titleLabel = new JLabel();
     JTextArea textfield = new JTextArea();
     JButton player1 = new JButton();
@@ -17,8 +18,8 @@ public class Game extends JFrame {
     JButton dice = new JButton();
     JLabel time_label = new JLabel();
     JLabel seconds_left = new JLabel();
-    JTextField number_right = new JTextField();
     HashSet<String> usedNames = new HashSet<>();
+
     // Custom OutputStream that appends text to the textfield
     private static class TextAreaOutputStream extends OutputStream {
         private final JTextArea textArea;
@@ -160,24 +161,27 @@ public class Game extends JFrame {
             }
         });
 
-        number_right.setBounds(225,225,100,100);
-        number_right.setBackground(new Color(25,25,25));
-        number_right.setForeground(new Color(25,255,0));
-        number_right.setFont(new Font("Ink Free",Font.BOLD,50));
-        number_right.setBorder(BorderFactory.createBevelBorder(1));
-        number_right.setHorizontalAlignment(JTextField.CENTER);
-        number_right.setEditable(false);
-
         Timer timer = new Timer(1000, e -> {
             seconds--;
             seconds_left.setText(String.valueOf(seconds));
             if (seconds <= 0) {
                 ((Timer)e.getSource()).stop();
-                System.out.print("you suck\n");
+                System.out.print("Game over\n");
             }
+
         });
 
-        timer.start();
+        startGameButton.setBounds(0,500,100,110);// Adjust these values as needed
+        startGameButton.setFont(new Font("MV Boli", Font.BOLD, 20));
+        startGameButton.setFocusable(false);
+        startGameButton.setText("Start");
+        startGameButton.addActionListener(e -> {
+            seconds = 60; // Reset the seconds variable
+            seconds_left.setText(String.valueOf(seconds)); // Update the seconds_left label
+            timer.start(); // Start the timer
+        });
+
+        frame.add(startGameButton);
         frame.add(titleLabel);
         frame.add(scrollPane);
         frame.add(time_label);
