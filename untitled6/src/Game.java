@@ -7,11 +7,13 @@ import java.util.HashSet;
 public class Game extends JFrame {
     int seconds=10;
     JFrame frame = new JFrame();
+    JLabel titleLabel = new JLabel();
     JTextArea textfield = new JTextArea();
     JButton player1 = new JButton();
     JButton player2 = new JButton();
     JButton player3 = new JButton();
     JButton player4 = new JButton();
+    JButton actionsButton = new JButton();
     JButton dice = new JButton();
     JLabel time_label = new JLabel();
     JLabel seconds_left = new JLabel();
@@ -43,6 +45,12 @@ public class Game extends JFrame {
         frame.setLayout(null);
         frame.setResizable(false);
 
+        titleLabel.setBounds(210, 10, 650, 50);
+        titleLabel.setFont(new Font("MV Boli", Font.BOLD, 40));
+        titleLabel.setForeground(new Color(255, 255, 255)); // Set color to white
+        titleLabel.setText("Game Title");
+
+
         textfield.setBounds(100, 100, 620, 400);
         textfield.setBackground(new Color(25, 25, 25));
         textfield.setForeground(new Color(25, 255, 0));
@@ -51,13 +59,11 @@ public class Game extends JFrame {
         textfield.setEditable(false);
         textfield.setLineWrap(true);
         JScrollPane scrollPane = new JScrollPane(textfield);
-        scrollPane.setBounds(100, 100, 500, 400);
-        frame.add(scrollPane);
+        scrollPane.setBounds(100, 100, 540, 400);
 
         PrintStream printStream = new PrintStream(new TextAreaOutputStream(textfield, 5000));
         System.setOut(printStream);
         System.setErr(printStream);
-
 
         player1.setBounds(0, 100, 100, 100);
         player1.setFont(new Font("MV Boli", Font.BOLD, 20));
@@ -122,7 +128,7 @@ public class Game extends JFrame {
         time_label.setHorizontalAlignment(JTextField.CENTER);
         time_label.setText("timer >:D");
 
-        dice.setBounds(225,525,200,100);
+        dice.setBounds(335,525,200,100);
         dice.setFont(new Font("MV Boli",Font.BOLD,35));
         dice.setFocusable(false);
         dice.setText("Roll Dice");
@@ -131,10 +137,30 @@ public class Game extends JFrame {
             int diceRoll2 = (int)(Math.random() * 6) + 1;
             int total = diceRoll1 + diceRoll2;
             System.out.print("You rolled a " + total + "\n");
+
+        });
+        actionsButton.setBounds(100, 525, 200, 100); // Adjust these values as needed
+        actionsButton.setFont(new Font("MV Boli", Font.BOLD, 35));
+        actionsButton.setFocusable(false);
+        actionsButton.setText("Actions");
+        actionsButton.addActionListener(a -> {
+            String[] options = {"Option 1", "Option 2", "Option 3", "Option 4", "Option 5"};
+            String selectedOption = (String) JOptionPane.showInputDialog(
+                    frame,
+                    "Choose an action:",
+                    "Action Selection",
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[0]
+            );
+            // Handle the selected option
+            if (selectedOption != null) {
+                System.out.println("You selected: " + selectedOption);
+            }
         });
 
-
-        number_right.setBounds(225,225,200,100);
+        number_right.setBounds(225,225,100,100);
         number_right.setBackground(new Color(25,25,25));
         number_right.setForeground(new Color(25,255,0));
         number_right.setFont(new Font("Ink Free",Font.BOLD,50));
@@ -147,14 +173,17 @@ public class Game extends JFrame {
             seconds_left.setText(String.valueOf(seconds));
             if (seconds <= 0) {
                 ((Timer)e.getSource()).stop();
-                System.out.print("hahahahahaha you suck\n");
+                System.out.print("you suck\n");
             }
         });
 
         timer.start();
+        frame.add(titleLabel);
+        frame.add(scrollPane);
         frame.add(time_label);
         frame.add(seconds_left);
         frame.add(dice);
+        frame.add(actionsButton);
         frame.add(player1);
         frame.add(player2);
         frame.add(player3);
@@ -168,14 +197,16 @@ public class Game extends JFrame {
             if (name != null && name.trim().isEmpty()) {
                 // Name is empty, show a message
                 JOptionPane.showMessageDialog(frame, "Name cannot be empty. Please enter a different name.");
+            } else if (name != null && name.length() > 6) {
+                // Name is more than 6 characters long, show a message
+                JOptionPane.showMessageDialog(frame, "Name must be up to 6 characters long. Please enter a different name.");
             } else if (usedNames.contains(name)) {
                 // Name is already used, show a message
                 JOptionPane.showMessageDialog(frame, "Name '" + name + "' is already in use. Please enter a different name.");
             }
-        } while (name != null && name.trim().isEmpty() || usedNames.contains(name));
+        } while (name != null && (name.trim().isEmpty() || name.length() > 6 || usedNames.contains(name)));
         if (name != null) {
             usedNames.add(name);
-
         }
         return name;
     }
