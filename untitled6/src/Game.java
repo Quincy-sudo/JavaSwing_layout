@@ -7,6 +7,7 @@ import java.util.HashSet;
 public class Game extends JFrame {
     private int currentPlayer = 1;
     int seconds=60;
+    private boolean turnEnded = true;
     JFrame frame = new JFrame();
     JButton startGameButton = new JButton();
     JLabel titleLabel = new JLabel();
@@ -135,30 +136,15 @@ public class Game extends JFrame {
         dice.setFocusable(false);
         dice.setText("Roll Dice");
         dice.addActionListener(e -> {
-            if (currentPlayer == 1) {
+            if (turnEnded) {
+                JButton[] playerButtons = {player1, player2, player3, player4};
                 int diceRoll1 = (int)(Math.random() * 6) + 1;
                 int diceRoll2 = (int)(Math.random() * 6) + 1;
                 int total = diceRoll1 + diceRoll2;
-                System.out.print(player1.getText() + " rolled a " + total + "\n");
-                currentPlayer = 2; // Switch to the next player
-            } else if (currentPlayer == 2) {
-                int diceRoll1 = (int)(Math.random() * 6) + 1;
-                int diceRoll2 = (int)(Math.random() * 6) + 1;
-                int total = diceRoll1 + diceRoll2;
-                System.out.print(player2.getText() + " rolled a " + total + "\n");
-                currentPlayer = 3; // Switch to the next player
-            } else if (currentPlayer == 3) {
-                int diceRoll1 = (int)(Math.random() * 6) + 1;
-                int diceRoll2 = (int)(Math.random() * 6) + 1;
-                int total = diceRoll1 + diceRoll2;
-                System.out.print(player3.getText() + " rolled a " + total + "\n");
-                currentPlayer = 4; // Switch to the next player
-            } else if (currentPlayer == 4) {
-                int diceRoll1 = (int)(Math.random() * 6) + 1;
-                int diceRoll2 = (int)(Math.random() * 6) + 1;
-                int total = diceRoll1 + diceRoll2;
-                System.out.print(player4.getText() + " rolled a " + total + "\n");
-                currentPlayer = 1; // Switch back to the first player
+                System.out.print(playerButtons[currentPlayer - 1].getText() + " rolled a " + total + "\n");
+                turnEnded = false; // Set turnEnded to false to indicate that the current player's turn has not ended
+            } else {
+                System.out.println("end your turn before the next player can roll the dice.");
             }
         });
         actionsButton.setBounds(100, 525, 200, 100); // Adjust these values as needed
@@ -209,6 +195,10 @@ public class Game extends JFrame {
         endTurnButton.setFocusable(false);
         endTurnButton.setText("<html>End<br>Turn</html>");
         endTurnButton.addActionListener(e -> {
+            JButton[] playerButtons = {player1, player2, player3, player4};
+            System.out.println(playerButtons[currentPlayer - 1].getText() + " has ended their turn");
+            turnEnded = true; // Set turnEnded to true to indicate that the current player's turn has ended
+            currentPlayer = (currentPlayer % 4) + 1; // Switch to the next player
         });
 
         promptPlayerNames();
