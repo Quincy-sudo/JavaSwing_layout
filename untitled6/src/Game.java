@@ -5,6 +5,7 @@ import java.io.PrintStream;
 import java.util.HashSet;
 
 public class Game extends JFrame {
+    private int currentPlayer = 1;
     int seconds=60;
     JFrame frame = new JFrame();
     JButton startGameButton = new JButton();
@@ -19,7 +20,7 @@ public class Game extends JFrame {
     JLabel time_label = new JLabel();
     JLabel seconds_left = new JLabel();
     HashSet<String> usedNames = new HashSet<>();
-
+    JButton endTurnButton = new JButton();
     // Custom OutputStream that appends text to the textfield
     private static class TextAreaOutputStream extends OutputStream {
         private final JTextArea textArea;
@@ -36,6 +37,7 @@ public class Game extends JFrame {
             if (textArea.getText().length() > maxTextLength) {
                 textArea.setText(""); // Clear text if it exceeds the limit
             }
+            textArea.setCaretPosition(textArea.getDocument().getLength()); // Scroll to the bottom
         }
     }
 
@@ -97,7 +99,7 @@ public class Game extends JFrame {
             String newName = Uniquename("Player 3");
             if (newName != null) {
                 player3.setText(newName);
-                System.out.print("Player 1 has changed their name to " + newName + "\n");
+                System.out.print("Player 3 has changed their name to " + newName + "\n");
             }
         });
         player4.setBounds(0,400,100,100);
@@ -108,7 +110,7 @@ public class Game extends JFrame {
             String newName = Uniquename("Player 4");
             if (newName != null) {
                 player4.setText(newName);
-                System.out.print("Player 1 has changed their name to " + newName + "\n");
+                System.out.print("Player 4 has changed their name to " + newName + "\n");
             }
         });
 
@@ -133,11 +135,31 @@ public class Game extends JFrame {
         dice.setFocusable(false);
         dice.setText("Roll Dice");
         dice.addActionListener(e -> {
-            int diceRoll1 = (int)(Math.random() * 6) + 1;
-            int diceRoll2 = (int)(Math.random() * 6) + 1;
-            int total = diceRoll1 + diceRoll2;
-            System.out.print("You rolled a " + total + "\n");
-
+            if (currentPlayer == 1) {
+                int diceRoll1 = (int)(Math.random() * 6) + 1;
+                int diceRoll2 = (int)(Math.random() * 6) + 1;
+                int total = diceRoll1 + diceRoll2;
+                System.out.print(player1.getText() + " rolled a " + total + "\n");
+                currentPlayer = 2; // Switch to the next player
+            } else if (currentPlayer == 2) {
+                int diceRoll1 = (int)(Math.random() * 6) + 1;
+                int diceRoll2 = (int)(Math.random() * 6) + 1;
+                int total = diceRoll1 + diceRoll2;
+                System.out.print(player2.getText() + " rolled a " + total + "\n");
+                currentPlayer = 3; // Switch to the next player
+            } else if (currentPlayer == 3) {
+                int diceRoll1 = (int)(Math.random() * 6) + 1;
+                int diceRoll2 = (int)(Math.random() * 6) + 1;
+                int total = diceRoll1 + diceRoll2;
+                System.out.print(player3.getText() + " rolled a " + total + "\n");
+                currentPlayer = 4; // Switch to the next player
+            } else if (currentPlayer == 4) {
+                int diceRoll1 = (int)(Math.random() * 6) + 1;
+                int diceRoll2 = (int)(Math.random() * 6) + 1;
+                int total = diceRoll1 + diceRoll2;
+                System.out.print(player4.getText() + " rolled a " + total + "\n");
+                currentPlayer = 1; // Switch back to the first player
+            }
         });
         actionsButton.setBounds(100, 525, 200, 100); // Adjust these values as needed
         actionsButton.setFont(new Font("MV Boli", Font.BOLD, 35));
@@ -179,9 +201,17 @@ public class Game extends JFrame {
             System.out.println("game has started");
             seconds_left.setText(String.valueOf(seconds)); // Update the seconds_left label
             timer.start(); // Start the timer
+            frame.remove(startGameButton);
+            frame.add(endTurnButton);
         });
-        promptPlayerNames();
+        endTurnButton.setBounds(0, 500, 100, 110); // Adjust these values as needed
+        endTurnButton.setFont(new Font("MV Boli", Font.BOLD, 15));
+        endTurnButton.setFocusable(false);
+        endTurnButton.setText("<html>End<br>Turn</html>");
+        endTurnButton.addActionListener(e -> {
+        });
 
+        promptPlayerNames();
         frame.add(startGameButton);
         frame.add(titleLabel);
         frame.add(scrollPane);
