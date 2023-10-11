@@ -147,7 +147,7 @@ public class Game extends JFrame {
                 System.out.println("end your turn before the next player can roll the dice.");
             }
         });
-        actionsButton.setBounds(100, 525, 200, 100); // Adjust these values as needed
+        actionsButton.setBounds(125, 525, 200, 100); // Adjust these values as needed
         actionsButton.setFont(new Font("MV Boli", Font.BOLD, 35));
         actionsButton.setFocusable(false);
         actionsButton.setText("Actions");
