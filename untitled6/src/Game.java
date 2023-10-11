@@ -51,7 +51,6 @@ public class Game extends JFrame {
         titleLabel.setForeground(new Color(255, 255, 255)); // Set color to white
         titleLabel.setText("Game Title");
 
-
         textfield.setBounds(100, 100, 620, 400);
         textfield.setBackground(new Color(25, 25, 25));
         textfield.setForeground(new Color(25, 255, 0));
