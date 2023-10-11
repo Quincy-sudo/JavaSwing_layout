@@ -152,11 +152,12 @@ public class Game extends JFrame {
         actionsButton.setFocusable(false);
         actionsButton.setText("Actions");
         actionsButton.addActionListener(a -> {
+            JButton[] playerButtons = {player1, player2, player3, player4};
             String[] options = {"Option 1", "Option 2", "Option 3", "Option 4", "Option 5"};
             String selectedOption = (String) JOptionPane.showInputDialog(
                     frame,
-                    "Choose an action:",
-                    "Action Selection",
+                    playerButtons[currentPlayer - 1].getText() + ", choose an action:",
+                    "Action Selection - " + currentPlayer,
                     JOptionPane.QUESTION_MESSAGE,
                     null,
                     options,
@@ -164,7 +165,7 @@ public class Game extends JFrame {
             );
             // Handle the selected option
             if (selectedOption != null) {
-                System.out.println("You selected: " + selectedOption);
+                System.out.println(playerButtons[currentPlayer - 1].getText() + " You selected: " + selectedOption);
             }
         });
 
