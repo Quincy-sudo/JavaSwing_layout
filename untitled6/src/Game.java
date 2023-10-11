@@ -134,6 +134,7 @@ public class Game extends JFrame {
         dice.setBounds(335,525,200,100);
         dice.setFont(new Font("MV Boli",Font.BOLD,35));
         dice.setFocusable(false);
+        dice.setEnabled(false);
         dice.setText("Roll Dice");
         dice.addActionListener(e -> {
             if (turnEnded) {
@@ -150,6 +151,7 @@ public class Game extends JFrame {
         actionsButton.setBounds(125, 525, 200, 100); // Adjust these values as needed
         actionsButton.setFont(new Font("MV Boli", Font.BOLD, 35));
         actionsButton.setFocusable(false);
+        actionsButton.setEnabled(false);
         actionsButton.setText("Actions");
         actionsButton.addActionListener(a -> {
             JButton[] playerButtons = {player1, player2, player3, player4};
@@ -184,6 +186,8 @@ public class Game extends JFrame {
         startGameButton.setFocusable(false);
         startGameButton.setText("Start");
         startGameButton.addActionListener(e -> {
+            dice.setEnabled(true);
+            actionsButton.setEnabled(true);
             seconds = 60; // Reset the seconds variable
             System.out.println("game has started");
             seconds_left.setText(String.valueOf(seconds)); // Update the seconds_left label
