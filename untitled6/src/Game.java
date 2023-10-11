@@ -50,7 +50,8 @@ public class Game extends JFrame {
         titleLabel.setFont(new Font("MV Boli", Font.BOLD, 40));
         titleLabel.setForeground(new Color(255, 255, 255)); // Set color to white
         titleLabel.setText("Game Title");
-        
+
+
         textfield.setBounds(100, 100, 620, 400);
         textfield.setBackground(new Color(25, 25, 25));
         textfield.setForeground(new Color(25, 255, 0));
@@ -202,20 +203,20 @@ public class Game extends JFrame {
             if (name != null && name.trim().isEmpty()) {
                 // Name is empty, show a message
                 JOptionPane.showMessageDialog(frame, "Name cannot be empty. Please enter a different name.");
-            } else if (name != null && name.length() > 6) {
-                // Name is more than 6 characters long, show a message
-                JOptionPane.showMessageDialog(frame, "Name must be up to 6 characters long. Please enter a different name.");
+            } else if (name != null && name.length() > 8) {
+                // Name is more than 8 characters long, show a message
+                JOptionPane.showMessageDialog(frame, "Name must be up to 8 characters long. Please enter a different name.");
             } else if (usedNames.contains(name)) {
                 // Name is already used, show a message
                 JOptionPane.showMessageDialog(frame, "Name '" + name + "' is already in use. Please enter a different name.");
             }
-        } while (name != null && (name.trim().isEmpty() || name.length() > 6 || usedNames.contains(name)));
+        } while (name != null && (name.trim().isEmpty() || name.length() > 8 || usedNames.contains(name)));
         if (name != null) {
             usedNames.add(name);
         }
         return name;
     }
-    
+
     private void promptPlayerNames() {
         String[] playerButtons = {"Player 1", "Player 2", "Player 3", "Player 4"};
         JButton[] buttons = {player1, player2, player3, player4};
