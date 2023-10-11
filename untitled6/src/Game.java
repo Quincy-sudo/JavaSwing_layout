@@ -67,7 +67,7 @@ public class Game extends JFrame {
         System.setErr(printStream);
 
         player1.setBounds(0, 100, 100, 100);
-        player1.setFont(new Font("MV Boli", Font.BOLD, 20));
+        player1.setFont(new Font("MV Boli", Font.BOLD, 15));
         player1.setFocusable(false);
         player1.setText("p1");
         player1.addActionListener(e -> {
@@ -79,7 +79,7 @@ public class Game extends JFrame {
         });
 
         player2.setBounds(0, 200, 100, 100);
-        player2.setFont(new Font("MV Boli", Font.BOLD, 20));
+        player2.setFont(new Font("MV Boli", Font.BOLD, 15));
         player2.setFocusable(false);
         player2.setText("p2");
         player2.addActionListener(e -> {
@@ -91,7 +91,7 @@ public class Game extends JFrame {
         });
 
         player3.setBounds(0,300,100,100);
-        player3.setFont(new Font("MV Boli",Font.BOLD,20));
+        player3.setFont(new Font("MV Boli",Font.BOLD,15));
         player3.setFocusable(false);
         player3.setText("p3");
         player3.addActionListener(e -> {
@@ -102,7 +102,7 @@ public class Game extends JFrame {
             }
         });
         player4.setBounds(0,400,100,100);
-        player4.setFont(new Font("MV Boli",Font.BOLD,20));
+        player4.setFont(new Font("MV Boli",Font.BOLD,15));
         player4.setFocusable(false);
         player4.setText("p4");
         player4.addActionListener(e -> {
@@ -177,9 +177,11 @@ public class Game extends JFrame {
         startGameButton.setText("Start");
         startGameButton.addActionListener(e -> {
             seconds = 60; // Reset the seconds variable
+            System.out.println("game has started");
             seconds_left.setText(String.valueOf(seconds)); // Update the seconds_left label
             timer.start(); // Start the timer
         });
+        promptPlayerNames();
 
         frame.add(startGameButton);
         frame.add(titleLabel);
@@ -213,6 +215,19 @@ public class Game extends JFrame {
             usedNames.add(name);
         }
         return name;
+    }
+    
+    private void promptPlayerNames() {
+        String[] playerButtons = {"Player 1", "Player 2", "Player 3", "Player 4"};
+        JButton[] buttons = {player1, player2, player3, player4};
+
+        for (int i = 0; i < playerButtons.length; i++) {
+            String newName = Uniquename(playerButtons[i]);
+            if (newName != null) {
+                buttons[i].setText(newName);
+                System.out.print(playerButtons[i] + " has changed their name to " + newName + "\n");
+            }
+        }
     }
     public static void main(String[] args) {
         new Game();
