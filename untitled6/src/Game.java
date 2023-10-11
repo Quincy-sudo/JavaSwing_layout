@@ -195,11 +195,15 @@ public class Game extends JFrame {
             frame.remove(startGameButton);
             frame.add(endTurnButton);
         });
+
         endTurnButton.setBounds(0, 500, 100, 110); // Adjust these values as needed
         endTurnButton.setFont(new Font("MV Boli", Font.BOLD, 15));
         endTurnButton.setFocusable(false);
         endTurnButton.setText("<html>End<br>Turn</html>");
         endTurnButton.addActionListener(e -> {
+            seconds = 60;
+            seconds_left.setText(String.valueOf(seconds)); // Update the seconds_left label
+            timer.start(); // Start the timer
             JButton[] playerButtons = {player1, player2, player3, player4};
             System.out.println(playerButtons[currentPlayer - 1].getText() + " has ended their turn");
             turnEnded = true; // Set turnEnded to true to indicate that the current player's turn has ended
