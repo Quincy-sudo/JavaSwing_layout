@@ -50,14 +50,14 @@ public class Game extends JFrame {
         frame.setResizable(false);
 
         titleLabel.setBounds(210, 10, 650, 50);
-        titleLabel.setFont(new Font("MV Boli", Font.BOLD, 40));
+        titleLabel.setFont(new Font("Times New Roman", Font.BOLD, 40));
         titleLabel.setForeground(new Color(255, 255, 255)); // Set color to white
         titleLabel.setText("Game Title");
 
         textfield.setBounds(100, 100, 620, 400);
         textfield.setBackground(new Color(25, 25, 25));
-        textfield.setForeground(new Color(25, 255, 0));
-        textfield.setFont(new Font("Ink Free", Font.BOLD, 20));
+        textfield.setForeground(new Color(255, 255, 255));
+        textfield.setFont(new Font("Times New Roman", Font.BOLD, 20));
         textfield.setBorder(BorderFactory.createBevelBorder(1));
         textfield.setEditable(false);
         textfield.setLineWrap(true);
@@ -68,8 +68,8 @@ public class Game extends JFrame {
         System.setOut(printStream);
         System.setErr(printStream);
 
-        player1.setBounds(0, 100, 100, 100);
-        player1.setFont(new Font("MV Boli", Font.BOLD, 15));
+        player1.setBounds(0, 100, 100, 50);
+        player1.setFont(new Font("Times New Roman", Font.BOLD, 15));
         player1.setFocusable(false);
         player1.setText("p1");
         player1.addActionListener(e -> {
@@ -80,8 +80,8 @@ public class Game extends JFrame {
             }
         });
 
-        player2.setBounds(0, 200, 100, 100);
-        player2.setFont(new Font("MV Boli", Font.BOLD, 15));
+        player2.setBounds(0, 200, 100, 50);
+        player2.setFont(new Font("Times New Roman", Font.BOLD, 15));
         player2.setFocusable(false);
         player2.setText("p2");
         player2.addActionListener(e -> {
@@ -92,8 +92,8 @@ public class Game extends JFrame {
             }
         });
 
-        player3.setBounds(0,300,100,100);
-        player3.setFont(new Font("MV Boli",Font.BOLD,15));
+        player3.setBounds(0,300,100,50);
+        player3.setFont(new Font("Times New Roman",Font.BOLD,15));
         player3.setFocusable(false);
         player3.setText("p3");
         player3.addActionListener(e -> {
@@ -103,8 +103,8 @@ public class Game extends JFrame {
                 System.out.print("Player 3 has changed their name to " + newName + "\n");
             }
         });
-        player4.setBounds(0,400,100,100);
-        player4.setFont(new Font("MV Boli",Font.BOLD,15));
+        player4.setBounds(0,400,100,50);
+        player4.setFont(new Font("Times New Roman",Font.BOLD,15));
         player4.setFocusable(false);
         player4.setText("p4");
         player4.addActionListener(e -> {
@@ -118,7 +118,7 @@ public class Game extends JFrame {
         seconds_left.setBounds(535,510,100,100);
         seconds_left.setBackground(new Color(25,25,25));
         seconds_left.setForeground(new Color(255,0,0));
-        seconds_left.setFont(new Font("Ink Free",Font.BOLD,60));
+        seconds_left.setFont(new Font("Times New Roman",Font.BOLD,60));
         seconds_left.setBorder(BorderFactory.createBevelBorder(1));
         seconds_left.setOpaque(true);
         seconds_left.setHorizontalAlignment(JTextField.CENTER);
@@ -127,12 +127,12 @@ public class Game extends JFrame {
         time_label.setBounds(535,510,100,25);
         time_label.setBackground(new Color(50,50,50));
         time_label.setForeground(new Color(255,0,0));
-        time_label.setFont(new Font("MV Boli",Font.PLAIN,16));
+        time_label.setFont(new Font("Times New Roman",Font.PLAIN,16));
         time_label.setHorizontalAlignment(JTextField.CENTER);
         time_label.setText("timer >:D");
 
         dice.setBounds(335,525,200,100);
-        dice.setFont(new Font("MV Boli",Font.BOLD,35));
+        dice.setFont(new Font("Times New Roman",Font.BOLD,35));
         dice.setFocusable(false);
         dice.setEnabled(false);
         dice.setText("Roll Dice");
@@ -149,7 +149,7 @@ public class Game extends JFrame {
             }
         });
         actionsButton.setBounds(125, 525, 200, 100); // Adjust these values as needed
-        actionsButton.setFont(new Font("MV Boli", Font.BOLD, 35));
+        actionsButton.setFont(new Font("Times New Roman", Font.BOLD, 35));
         actionsButton.setFocusable(false);
         actionsButton.setEnabled(false);
         actionsButton.setText("Actions");
@@ -182,7 +182,7 @@ public class Game extends JFrame {
         });
 
         startGameButton.setBounds(0,500,100,110);// Adjust these values as needed
-        startGameButton.setFont(new Font("MV Boli", Font.BOLD, 20));
+        startGameButton.setFont(new Font("Times New Roman", Font.BOLD, 20));
         startGameButton.setFocusable(false);
         startGameButton.setText("Start");
         startGameButton.addActionListener(e -> {
@@ -197,7 +197,7 @@ public class Game extends JFrame {
         });
 
         endTurnButton.setBounds(0, 500, 100, 110); // Adjust these values as needed
-        endTurnButton.setFont(new Font("MV Boli", Font.BOLD, 15));
+        endTurnButton.setFont(new Font("Times New Roman", Font.BOLD, 15));
         endTurnButton.setFocusable(false);
         endTurnButton.setText("<html>End<br>Turn</html>");
         endTurnButton.addActionListener(e -> {
