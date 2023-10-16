@@ -146,16 +146,6 @@ public class Game extends JFrame {
                 int diceRoll = rollDice();
                 System.out.println(players.get(currentPlayer - 1).getName() + " rolled a " + diceRoll);
 
-                // Get the current player's position on the game board
-                int currentPosition = players.get(currentPlayer- 1).getPosition();
-
-                // Update the player's position by adding the dice roll
-                int newPosition = currentPosition + diceRoll;
-
-                // Check if the new position exceeds the maximum position on the game board
-
-                players.get(currentPlayer - 1).setPosition(newPosition);
-
                 dice_button.setEnabled(false);
 
                 turnEnded = false; // Set turnEnded to false to indicate that the current player's turn has not ended
