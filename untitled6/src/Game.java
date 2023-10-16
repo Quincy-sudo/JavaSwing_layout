@@ -1,23 +1,29 @@
+import Player.Player;
+import Dice.Dice;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.stream.Collectors;
 
 public class Game extends JFrame {
     int currentPlayer = 1;
     int seconds=60;
     boolean turnEnded = true;
+    Dice dice = new Dice();
+    private final int diceRoll = dice.roll();
     JFrame frame = new JFrame();
     JButton startGameButton = new JButton();
     JLabel titleLabel = new JLabel();
     JTextArea textfield = new JTextArea();
-    JButton player1 = new JButton();
-    JButton player2 = new JButton();
-    JButton player3 = new JButton();
-    JButton player4 = new JButton();
+    private final java.util.List<Player> players = new ArrayList<>();
+    private final java.util.List<JButton> playerButtons = new ArrayList<>();
+    private final java.util.List<JLabel> playerScoreLabels = new ArrayList<>();
     JButton actionsButton = new JButton();
-    JButton dice = new JButton();
+    JButton dice_button = new JButton();
     JLabel time_label = new JLabel();
     JLabel seconds_left = new JLabel();
     HashSet<String> usedNames = new HashSet<>();
@@ -68,52 +74,49 @@ public class Game extends JFrame {
         System.setOut(printStream);
         System.setErr(printStream);
 
-        player1.setBounds(0, 100, 100, 50);
-        player1.setFont(new Font("Times New Roman", Font.BOLD, 15));
-        player1.setFocusable(false);
-        player1.setText("p1");
-        player1.addActionListener(e -> {
-            String newName = Uniquename("Player 1");
-            if (newName != null) {
-                player1.setText(newName);
-                System.out.print("Player 1 has changed their name to " + newName + "\n");
+        int numPlayers;
+        while (true) {
+            String numPlayersStr = JOptionPane.showInputDialog("Enter the number of players (1-4) or type 'exit' to quit:");
+            if ("exit".equalsIgnoreCase(numPlayersStr)) {
+                System.exit(0); // Exit the program if the user types 'exit'
             }
-        });
-
-        player2.setBounds(0, 200, 100, 50);
-        player2.setFont(new Font("Times New Roman", Font.BOLD, 15));
-        player2.setFocusable(false);
-        player2.setText("p2");
-        player2.addActionListener(e -> {
-            String newName = Uniquename("Player 2");
-            if (newName != null) {
-                player2.setText(newName);
-                System.out.print("Player 2 has changed their name to " + newName + "\n");
+            try {
+                numPlayers = Integer.parseInt(numPlayersStr);
+                if (numPlayers >= 1 && numPlayers <= 4) {
+                    break; // Exit the loop if the number is valid
+                } else {
+                    JOptionPane.showMessageDialog(null, "Invalid number of players. Please enter a number between 1 and 4.");
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Invalid input. Please enter a number.");
             }
-        });
-
-        player3.setBounds(0,300,100,50);
-        player3.setFont(new Font("Times New Roman",Font.BOLD,15));
-        player3.setFocusable(false);
-        player3.setText("p3");
-        player3.addActionListener(e -> {
-            String newName = Uniquename("Player 3");
-            if (newName != null) {
-                player3.setText(newName);
-                System.out.print("Player 3 has changed their name to " + newName + "\n");
-            }
-        });
-        player4.setBounds(0,400,100,50);
-        player4.setFont(new Font("Times New Roman",Font.BOLD,15));
-        player4.setFocusable(false);
-        player4.setText("p4");
-        player4.addActionListener(e -> {
-            String newName = Uniquename("Player 4");
-            if (newName != null) {
-                player4.setText(newName);
-                System.out.print("Player 4 has changed their name to " + newName + "\n");
-            }
-        });
+        }
+        for (int i = 0; i < numPlayers; i++) {
+            final int finalI = i; // Create a final copy of i
+            String playerName = "Player " + (i + 1);
+            players.add(new Player(playerName)); // Use add() method to add a new player
+            JButton playerButton = new JButton();
+            playerButton.setBounds(0, 100 + (i * 100), 98, 50);
+            playerButton.setFont(new Font("Times New Roman", Font.BOLD, 15));
+            playerButton.setFocusable(false);
+            playerButton.setText(playerName);
+            JLabel scoreLabel = new JLabel("Score: 0: ");
+            playerScoreLabels.add(scoreLabel);
+            playerButton.addActionListener(e -> {
+                playerScoreLabels.add(scoreLabel);
+                JLabel resourceLabel = new JLabel("Resources: " + players.get(finalI).getResources());
+                playerScoreLabels.add(resourceLabel);
+                // Create a new JFrame to display the player's score, resources and tiles owned
+                JFrame scoreFrame = new JFrame("Score, Resources and Tiles Owned");
+                scoreFrame.setSize(400, 200);
+                scoreFrame.setLayout(new BoxLayout(scoreFrame.getContentPane(), BoxLayout.Y_AXIS)); // Set layout to BoxLayout to arrange labels vertically
+                scoreFrame.add(scoreLabel);
+                scoreFrame.add(resourceLabel);
+                scoreFrame.setVisible(true);
+            });
+            playerButtons.add(playerButton); // Use add() method to add the button to the list
+            frame.add(playerButton);
+        }
 
         seconds_left.setBounds(535,510,100,100);
         seconds_left.setBackground(new Color(25,25,25));
@@ -131,21 +134,32 @@ public class Game extends JFrame {
         time_label.setHorizontalAlignment(JTextField.CENTER);
         time_label.setText("timer >:D");
 
-        dice.setBounds(335,525,200,100);
-        dice.setFont(new Font("Times New Roman",Font.BOLD,35));
-        dice.setFocusable(false);
-        dice.setEnabled(false);
-        dice.setText("Roll Dice");
-        dice.addActionListener(e -> {
+        dice_button.setBounds(335,525,200,100);
+        dice_button.setFont(new Font("Times New Roman",Font.BOLD,35));
+        dice_button.setFocusable(false);
+        dice_button.setEnabled(false);
+        dice_button.setText("Roll Dice");
+        dice_button.addActionListener(e -> {
             if (turnEnded) {
-                JButton[] playerButtons = {player1, player2, player3, player4};
-                int diceRoll1 = (int)(Math.random() * 6) + 1;
-                int diceRoll2 = (int)(Math.random() * 6) + 1;
-                int total = diceRoll1 + diceRoll2;
-                System.out.print(playerButtons[currentPlayer - 1].getText() + " rolled a " + total + "\n");
+                // Roll the dice and perform actions for the current player
+                int diceRoll = rollDice();
+                System.out.println(players.get(currentPlayer - 1).getName() + " rolled a " + diceRoll);
+
+                // Get the current player's position on the game board
+                int currentPosition = players.get(currentPlayer- 1).getPosition();
+
+                // Update the player's position by adding the dice roll
+                int newPosition = currentPosition + diceRoll;
+
+                // Check if the new position exceeds the maximum position on the game board
+
+                players.get(currentPlayer - 1).setPosition(newPosition);
+
+                dice_button.setEnabled(false);
+
                 turnEnded = false; // Set turnEnded to false to indicate that the current player's turn has not ended
             } else {
-                System.out.println("end your turn before the next player can roll the dice.");
+                System.out.println("End your turn before the next player can roll the dice.");
             }
         });
         actionsButton.setBounds(125, 525, 200, 100); // Adjust these values as needed
@@ -154,11 +168,10 @@ public class Game extends JFrame {
         actionsButton.setEnabled(false);
         actionsButton.setText("Actions");
         actionsButton.addActionListener(a -> {
-            JButton[] playerButtons = {player1, player2, player3, player4};
             String[] options = {"Option 1", "Option 2", "Option 3", "Option 4", "Option 5"};
             String selectedOption = (String) JOptionPane.showInputDialog(
                     frame,
-                    playerButtons[currentPlayer - 1].getText() + ", choose an action:",
+                    playerButtons.get(currentPlayer - 1).getText() + ", choose an action:",
                     "Action Selection - " + currentPlayer,
                     JOptionPane.QUESTION_MESSAGE,
                     null,
@@ -167,7 +180,7 @@ public class Game extends JFrame {
             );
             // Handle the selected option
             if (selectedOption != null) {
-                System.out.println(playerButtons[currentPlayer - 1].getText() + " You selected: " + selectedOption);
+                System.out.println(playerButtons.get(currentPlayer - 1).getText() + " You selected: " + selectedOption);
             }
         });
 
@@ -186,7 +199,7 @@ public class Game extends JFrame {
         startGameButton.setFocusable(false);
         startGameButton.setText("Start");
         startGameButton.addActionListener(e -> {
-            dice.setEnabled(true);
+            dice_button.setEnabled(true);
             actionsButton.setEnabled(true);
             seconds = 60; // Reset the seconds variable
             System.out.println("game has started");
@@ -204,10 +217,10 @@ public class Game extends JFrame {
             seconds = 60;
             seconds_left.setText(String.valueOf(seconds)); // Update the seconds_left label
             timer.start(); // Start the timer
-            JButton[] playerButtons = {player1, player2, player3, player4};
-            System.out.println(playerButtons[currentPlayer - 1].getText() + " has ended their turn");
+            System.out.println(playerButtons.get(currentPlayer - 1).getText() + " has ended their turn");
             turnEnded = true; // Set turnEnded to true to indicate that the current player's turn has ended
-            currentPlayer = (currentPlayer % 4) + 1; // Switch to the next player
+            currentPlayer = (currentPlayer % players.size()) + 1; // Switch to the next player
+            dice_button.setEnabled(true);
         });
 
         promptPlayerNames();
@@ -216,12 +229,8 @@ public class Game extends JFrame {
         frame.add(scrollPane);
         frame.add(time_label);
         frame.add(seconds_left);
-        frame.add(dice);
+        frame.add(dice_button);
         frame.add(actionsButton);
-        frame.add(player1);
-        frame.add(player2);
-        frame.add(player3);
-        frame.add(player4);
         frame.setVisible(true);
     }
     private String Uniquename(String playerLabel) {
@@ -246,19 +255,25 @@ public class Game extends JFrame {
     }
 
     private void promptPlayerNames() {
-        String[] playerButtons = {"Player 1", "Player 2", "Player 3", "Player 4"};
-        JButton[] buttons = {player1, player2, player3, player4};
-
-        for (int i = 0; i < playerButtons.length; i++) {
-            String newName = Uniquename(playerButtons[i]);
+        for (int i = 0; i < playerButtons.size(); i++) {
+            String newName = Uniquename(playerButtons.get(i).getText());
             if (newName != null) {
-                buttons[i].setText(newName);
-                System.out.print(playerButtons[i] + " has changed their name to " + newName + "\n");
+                players.get(i).setName(newName);
+                playerButtons.get(i).setText(newName);
+                System.out.print("Player " + (i + 1) + " has changed their name to " + newName + "\n");
             }
         }
     }
     public static void main(String[] args) {
         new Game();
     }
+    private int rollDice() {
+        // Generate random numbers between 1 and 6 for two dice
+        int dice1 = (int) (Math.random() * 6) + 1;
+        int dice2 = (int) (Math.random() * 6) + 1;
+        // Calculate the sum of the two dice rolls
+        int sum = dice1 + dice2;
 
+        return sum;
+    }
 }
