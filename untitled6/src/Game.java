@@ -8,6 +8,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.stream.Collectors;
+import java.util.List;
 
 public class Game extends JFrame {
     int currentPlayer = 1;
@@ -19,9 +20,9 @@ public class Game extends JFrame {
     JButton startGameButton = new JButton();
     JLabel titleLabel = new JLabel();
     JTextArea textfield = new JTextArea();
-    private final java.util.List<Player> players = new ArrayList<>();
-    private final java.util.List<JButton> playerButtons = new ArrayList<>();
-    private final java.util.List<JLabel> playerScoreLabels = new ArrayList<>();
+    private final List<Player> players = new ArrayList<>();
+    private final List<JButton> playerButtons = new ArrayList<>();
+    private final List<JLabel> playerScoreLabels = new ArrayList<>();
     JButton actionsButton = new JButton();
     JButton dice_button = new JButton();
     JLabel time_label = new JLabel();
